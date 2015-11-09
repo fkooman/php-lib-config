@@ -19,24 +19,19 @@ namespace fkooman\Config;
 
 use RuntimeException;
 
-class IniReader implements ReaderInterface
+class IniFile implements ReaderInterface
 {
-    /** @var array */
-    private $config;
+    /** @var string */
+    private $configFile;
 
-    public function __construct(array $config)
+    public function __construct($configFile)
     {
-        $this->config = $config;
+        $this->configFile = $configFile;
     }
 
-    public function getConfig()
+    public function readConfig()
     {
-        return $this->config;
-    }
-
-    public static function fromFile($configFile)
-    {
-        $fileContent = @file_get_contents($configFile);
+        $fileContent = @file_get_contents($this->configFile);
         if (false === $fileContent) {
             throw new RuntimeException('unable to read configuration file');
         }
@@ -45,6 +40,6 @@ class IniReader implements ReaderInterface
             throw new RuntimeException('unable to parse configuration file');
         }
 
-        return new static($configData);
+        return $configData;
     }
 }

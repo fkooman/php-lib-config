@@ -17,31 +17,29 @@
  */
 namespace fkooman\Config;
 
-use RuntimeException;
-use Symfony\Component\Yaml\Yaml;
+use PHPUnit_Framework_TestCase;
 
-class YamlReader implements ReaderInterface
+class IniFileTest extends PHPUnit_Framework_TestCase
 {
-    /** @var array */
-    private $config;
-
-    public function __construct(array $config)
+    public function testSimpleYaml()
     {
-        $this->config = $config;
-    }
-
-    public function getConfig()
-    {
-        return $this->config;
-    }
-
-    public static function fromFile($configFile)
-    {
-        $fileContent = @file_get_contents($configFile);
-        if (false === $fileContent) {
-            throw new RuntimeException('unable to read configuration file');
-        }
-
-        return new static(Yaml::parse($fileContent));
+        $iniFile = new IniFile(__DIR__.'/test.ini');
+        $this->assertSame(
+            array(
+                'foo' => 'bar',
+                'one' => array(
+                    'xyz' => 'abc',
+                ),
+                'two' => array(
+                    'bar' => 'foo',
+                    'list' => array(
+                        'one',
+                        'two',
+                        'three',
+                    ),
+                ),
+            ),
+            $iniFile->readConfig()
+        );
     }
 }

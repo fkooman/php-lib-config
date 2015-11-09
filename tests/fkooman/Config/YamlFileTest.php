@@ -17,18 +17,22 @@
  */
 namespace fkooman\Config;
 
-class ArrayReader implements ReaderInterface
+use PHPUnit_Framework_TestCase;
+
+class YamlFileTest extends PHPUnit_Framework_TestCase
 {
-    /** @var array */
-    private $config;
-
-    public function __construct(array $config)
+    public function testSimpleYaml()
     {
-        $this->config = $config;
-    }
-
-    public function readConfig()
-    {
-        return $this->config;
+        $yamlFile = new YamlFile(__DIR__.'/test.yaml');
+        $this->assertSame(
+            array(
+                'foo' => 'bar',
+                'Bar' => array(
+                    'a' => 'b',
+                    'b' => 'c',
+                ),
+            ),
+            $yamlFile->readConfig()
+        );
     }
 }

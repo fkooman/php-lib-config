@@ -16,15 +16,24 @@ your `composer.json`.
 You can initialize the `Reader` object like this:
 
     $reader = new Reader(
-        IniReader::fromFile('config.ini')
+        new IniFile('config.ini')
     );
 
 Or for YAML:
 
     $reader = new Reader(
-        YamlReader::fromFile('config.yaml')
+        new YamlFile('config.yaml')
     );
 
+# Writing
+
+    $yamlFile = new YamlFile('config.yaml');
+    $yamlFile->writeConfig(
+        array(
+            'foo' => 'bar'
+        )
+    );
+               
 # Examples
 Imagine the following INI file:
 

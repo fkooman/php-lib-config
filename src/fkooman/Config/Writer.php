@@ -17,18 +17,18 @@
  */
 namespace fkooman\Config;
 
-class ArrayReader implements ReaderInterface
+class Writer
 {
-    /** @var array */
-    private $config;
+    /** @var \fkooman\Config\Writer */
+    private $writer;
 
-    public function __construct(array $config)
+    public function __construct(WriterInterface $writer)
     {
-        $this->config = $config;
+        $this->writer = $writer;
     }
 
-    public function readConfig()
+    public function write(array $config)
     {
-        return $this->config;
+        $this->writer->writeConfig($config);
     }
 }

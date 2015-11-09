@@ -42,6 +42,7 @@ class ReaderTest extends PHPUnit_Framework_TestCase
             )
         );
     }
+
     public function testRootLevel()
     {
         $this->assertEquals('bar', $this->reader->v('foo'));

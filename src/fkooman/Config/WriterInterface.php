@@ -2,12 +2,12 @@
 
 namespace fkooman\Config;
 
-interface ReaderInterface
+interface WriterInterface
 {
     /**
      * Get the configuration from a particular reader as nested array.
      *
      * @return array the configuration as a nested array
      */
-    public function readConfig();
+    public function writeConfig(array $config);
 }

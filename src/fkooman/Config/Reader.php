@@ -27,7 +27,7 @@ class Reader
 
     public function __construct(ReaderInterface $reader)
     {
-        $this->config = $reader->getConfig();
+        $this->config = $reader->readConfig();
     }
 
     public static function isRequired(array $argv)
@@ -95,6 +95,16 @@ class Reader
         }
 
         return $configPointer;
+    }
+
+    /**
+     * Get the configuration as a nested array.
+     *
+     * @return array the configuration as a nested array
+     */
+    public function getConfig()
+    {
+        return $this->config;
     }
 
     public function v()
