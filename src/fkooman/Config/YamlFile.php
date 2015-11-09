@@ -19,6 +19,7 @@ namespace fkooman\Config;
 
 use RuntimeException;
 use Symfony\Component\Yaml\Yaml;
+use Symfony\Component\Yaml\Dumper;
 
 class YamlFile implements ReaderInterface, WriterInterface
 {

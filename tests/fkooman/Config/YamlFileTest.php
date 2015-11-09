@@ -21,7 +21,7 @@ use PHPUnit_Framework_TestCase;
 
 class YamlFileTest extends PHPUnit_Framework_TestCase
 {
-    public function testSimpleYaml()
+    public function testReadConfig()
     {
         $yamlFile = new YamlFile(__DIR__.'/test.yaml');
         $this->assertSame(
@@ -32,6 +32,20 @@ class YamlFileTest extends PHPUnit_Framework_TestCase
                     'b' => 'c',
                 ),
             ),
+            $yamlFile->readConfig()
+        );
+    }
+
+    public function testWriteConfig()
+    {
+        $configData = array(
+            'foo' => 'bar',
+        );
+
+        $yamlFile = new YamlFile(tempnam(sys_get_temp_dir(), 'tst'));
+        $yamlFile->writeConfig($configData);
+        $this->assertSame(
+            $configData,
             $yamlFile->readConfig()
         );
     }

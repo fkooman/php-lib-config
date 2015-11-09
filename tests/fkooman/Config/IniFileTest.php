@@ -21,7 +21,7 @@ use PHPUnit_Framework_TestCase;
 
 class IniFileTest extends PHPUnit_Framework_TestCase
 {
-    public function testSimpleYaml()
+    public function testReadConfig()
     {
         $iniFile = new IniFile(__DIR__.'/test.ini');
         $this->assertSame(
