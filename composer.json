@@ -1,0 +1,22 @@
+{
+    "authors": [
+        {
+            "email": "fkooman@tuxed.net",
+            "name": "Fran\u00e7ois Kooman",
+            "role": "Developer"
+        }
+    ],
+    "autoload": {
+        "psr-0": {
+            "fkooman\\Config\\": "src/"
+        }
+    },
+    "description": "Read and write configuration files",
+    "license": "Apache-2.0",
+    "name": "fkooman/config",
+    "require": {
+        "ext-spl": "*",
+        "php": ">=5.3.3",
+        "symfony/yaml": "^2.7"
+    }
+}
