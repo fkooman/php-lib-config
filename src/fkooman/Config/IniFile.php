@@ -15,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 namespace fkooman\Config;
 
 use RuntimeException;
@@ -33,11 +34,11 @@ class IniFile implements ReaderInterface
     {
         $fileContent = @file_get_contents($this->configFile);
         if (false === $fileContent) {
-            throw new RuntimeException('unable to read configuration file');
+            throw new RuntimeException(sprintf('unable to read configuration file "%s"', $this->configFile));
         }
         $configData = @parse_ini_string($fileContent, true);
         if (false === $configData) {
-            throw new RuntimeException('unable to parse configuration file');
+            throw new RuntimeException(sprintf('unable to parse configuration file "%s"', $this->configFile));
         }
 
         return $configData;

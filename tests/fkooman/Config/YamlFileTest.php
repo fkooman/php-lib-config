@@ -15,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 namespace fkooman\Config;
 
 use PHPUnit_Framework_TestCase;
@@ -34,6 +35,15 @@ class YamlFileTest extends PHPUnit_Framework_TestCase
             ),
             $yamlFile->readConfig()
         );
+    }
+
+    /**
+     * @expectedException RuntimeException
+     */
+    public function testReadConfigFail()
+    {
+        $yamlFile = new YamlFile(__DIR__.'/test_missing.yaml');
+        $yamlFile->readConfig();
     }
 
     public function testWriteConfig()

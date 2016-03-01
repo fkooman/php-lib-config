@@ -15,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 namespace fkooman\Config;
 
 use PHPUnit_Framework_TestCase;
@@ -41,5 +42,14 @@ class IniFileTest extends PHPUnit_Framework_TestCase
             ),
             $iniFile->readConfig()
         );
+    }
+
+    /**
+     * @expectedException RuntimeException
+     */
+    public function testReadConfigFail()
+    {
+        $iniFile = new IniFile(__DIR__.'/test_missing.ini');
+        $iniFile->readConfig();
     }
 }
