@@ -61,7 +61,7 @@ class ReaderTest extends PHPUnit_Framework_TestCase
 
     /**
      * @expectedException RuntimeException
-     * @expectedExceptionMessage configuration value not found
+     * @expectedExceptionMessage configuration value "one:two:three" not found
      */
     public function testMissingValueRequired()
     {
@@ -80,7 +80,7 @@ class ReaderTest extends PHPUnit_Framework_TestCase
 
     /**
      * @expectedException RuntimeException
-     * @expectedExceptionMessage configuration value not found
+     * @expectedExceptionMessage configuration value "foo:bar" not found
      */
     public function testDeeperLevelNotExisting()
     {
@@ -104,7 +104,7 @@ class ReaderTest extends PHPUnit_Framework_TestCase
 
     /**
      * @expectedException RuntimeException
-     * @expectedExceptionMessage configuration value not found
+     * @expectedExceptionMessage configuration value "one:two:three" not found
      */
     public function testExplicitRequiredMissing()
     {
@@ -113,7 +113,7 @@ class ReaderTest extends PHPUnit_Framework_TestCase
 
     /**
      * @expectedException RuntimeException
-     * @expectedExceptionMessage configuration value not found
+     * @expectedExceptionMessage configuration value "one:two:three" not found
      */
     public function testExplicitRequiredMissingWithDefaultValue()
     {

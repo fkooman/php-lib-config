@@ -131,7 +131,9 @@ class Reader
 
         // if it is required and not available throw error
         if (self::isRequired($argv)) {
-            throw new RuntimeException('configuration value not found');
+            throw new RuntimeException(
+                sprintf('configuration value "%s" not found', implode(':', $configValues))
+            );
         }
 
         // return the default value
