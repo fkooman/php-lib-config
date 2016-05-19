@@ -45,7 +45,7 @@ class YamlFile implements ReaderInterface, WriterInterface
     public function writeConfig(array $config)
     {
         $dumper = new Dumper();
-        $yamlStr = $dumper->dump($config, 2);
+        $yamlStr = $dumper->dump($config, 3);
         if (false === @file_put_contents($this->configFile, $yamlStr)) {
             throw new RuntimeException(sprintf('unable to write configuration file "%s"', $this->configFile));
         }
