@@ -37,12 +37,68 @@ class YamlFileTest extends PHPUnit_Framework_TestCase
         );
     }
 
+    public function testReadMultiConfig()
+    {
+        $yamlFile = new YamlFile(
+            [
+                __DIR__.'/test_missing.yaml',
+                __DIR__.'/test.yaml',
+            ]
+        );
+
+        $this->assertSame(
+            array(
+                'foo' => 'bar',
+                'Bar' => array(
+                    'a' => 'b',
+                    'b' => 'c',
+                ),
+            ),
+            $yamlFile->readConfig()
+        );
+    }
+
+    public function testReadMultiExistConfigTakesFirst()
+    {
+        $yamlFile = new YamlFile(
+            [
+                __DIR__.'/test_2.yaml',
+                __DIR__.'/test.yaml',
+            ]
+        );
+
+        $this->assertSame(
+            array(
+                'foo' => 'baz',
+                'Bar' => array(
+                    'a' => 'c',
+                    'b' => 'd',
+                ),
+            ),
+            $yamlFile->readConfig()
+        );
+    }
+
     /**
      * @expectedException RuntimeException
      */
     public function testReadConfigFail()
     {
         $yamlFile = new YamlFile(__DIR__.'/test_missing.yaml');
+        $yamlFile->readConfig();
+    }
+
+    /**
+     * @expectedException RuntimeException
+     */
+    public function testReadMultiConfigFail()
+    {
+        $yamlFile = new YamlFile(
+            [
+                __DIR__.'/test_missing.yaml',
+                __DIR__.'/test_missing_2.yaml',
+            ]
+        );
         $yamlFile->readConfig();
     }
 
@@ -58,5 +114,25 @@ class YamlFileTest extends PHPUnit_Framework_TestCase
             $configData,
             $yamlFile->readConfig()
         );
+    }
+
+    /**
+     * @expectedException RuntimeException
+     * @expectedExceptionMessage unable to write configuration file(s) "/foo"
+     */
+    public function testWriteConfigFail()
+    {
+        $yamlFile = new YamlFile('/foo');
+        $yamlFile->writeConfig(['foo' => 'bar']);
+    }
+
+    /**
+     * @expectedException RuntimeException
+     * @expectedExceptionMessage unable to write configuration file(s) "/foo,/bar"
+     */
+    public function testWriteMultiConfigFail()
+    {
+        $yamlFile = new YamlFile(['/foo', '/bar']);
+        $yamlFile->writeConfig(['foo' => 'bar']);
     }
 }

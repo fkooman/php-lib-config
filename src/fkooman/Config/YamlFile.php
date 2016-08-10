@@ -24,30 +24,40 @@ use Symfony\Component\Yaml\Dumper;
 
 class YamlFile implements ReaderInterface, WriterInterface
 {
-    /** @var string */
+    /** @var array */
     private $configFile;
 
     public function __construct($configFile)
     {
+        if (!is_array($configFile)) {
+            $configFile = [$configFile];
+        }
+
         $this->configFile = $configFile;
     }
 
     public function readConfig()
     {
-        $fileContent = @file_get_contents($this->configFile);
-        if (false === $fileContent) {
-            throw new RuntimeException(sprintf('unable to read configuration file "%s"', $this->configFile));
+        foreach ($this->configFile as $configFile) {
+            $fileContent = @file_get_contents($configFile);
+            if (false !== $fileContent) {
+                return Yaml::parse($fileContent);
+            }
         }
 
-        return Yaml::parse($fileContent);
+        throw new RuntimeException(sprintf('unable to read configuration file(s) "%s"', implode(',', $this->configFile)));
     }
 
     public function writeConfig(array $config)
     {
         $dumper = new Dumper();
         $yamlStr = $dumper->dump($config, 3);
-        if (false === @file_put_contents($this->configFile, $yamlStr)) {
-            throw new RuntimeException(sprintf('unable to write configuration file "%s"', $this->configFile));
+        foreach ($this->configFile as $configFile) {
+            if (false !== @file_put_contents($configFile, $yamlStr)) {
+                return;
+            }
         }
+
+        throw new RuntimeException(sprintf('unable to write configuration file(s) "%s"', implode(',', $this->configFile)));
     }
 }

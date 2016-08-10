@@ -44,12 +44,82 @@ class IniFileTest extends PHPUnit_Framework_TestCase
         );
     }
 
+    public function testReadMultiConfig()
+    {
+        $iniFile = new IniFile(
+            [
+                __DIR__.'/test_missing.ini',
+                __DIR__.'/test.ini',
+            ]
+        );
+
+        $this->assertSame(
+            array(
+                'foo' => 'bar',
+                'one' => array(
+                    'xyz' => 'abc',
+                ),
+                'two' => array(
+                    'bar' => 'foo',
+                    'list' => array(
+                        'one',
+                        'two',
+                        'three',
+                    ),
+                ),
+            ),
+            $iniFile->readConfig()
+        );
+    }
+
+    public function testReadMultiConfigExists()
+    {
+        $iniFile = new IniFile(
+            [
+                __DIR__.'/test_2.ini',
+                __DIR__.'/test.ini',
+            ]
+        );
+
+        $this->assertSame(
+            array(
+                'foo' => 'baz',
+                'one' => array(
+                    'xyz' => 'abc',
+                ),
+                'two' => array(
+                    'bar' => 'foo',
+                    'list' => array(
+                        'one',
+                        'two',
+                        'three',
+                    ),
+                ),
+            ),
+            $iniFile->readConfig()
+        );
+    }
+
     /**
      * @expectedException RuntimeException
      */
     public function testReadConfigFail()
     {
         $iniFile = new IniFile(__DIR__.'/test_missing.ini');
+        $iniFile->readConfig();
+    }
+
+    /**
+     * @expectedException RuntimeException
+     */
+    public function testReadAllConfigFail()
+    {
+        $iniFile = new IniFile(
+            [
+                __DIR__.'/test_missing.ini',
+                __DIR__.'/test_missing_2.ini',
+            ]
+        );
         $iniFile->readConfig();
     }
 }

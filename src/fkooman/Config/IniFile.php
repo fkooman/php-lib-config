@@ -22,25 +22,32 @@ use RuntimeException;
 
 class IniFile implements ReaderInterface
 {
-    /** @var string */
+    /** @var array */
     private $configFile;
 
     public function __construct($configFile)
     {
+        if (!is_array($configFile)) {
+            $configFile = [$configFile];
+        }
+
         $this->configFile = $configFile;
     }
 
     public function readConfig()
     {
-        $fileContent = @file_get_contents($this->configFile);
-        if (false === $fileContent) {
-            throw new RuntimeException(sprintf('unable to read configuration file "%s"', $this->configFile));
-        }
-        $configData = @parse_ini_string($fileContent, true);
-        if (false === $configData) {
-            throw new RuntimeException(sprintf('unable to parse configuration file "%s"', $this->configFile));
+        foreach ($this->configFile as $configFile) {
+            $fileContent = @file_get_contents($configFile);
+            if (false !== $fileContent) {
+                $configData = @parse_ini_string($fileContent, true);
+                if (false === $configData) {
+                    throw new RuntimeException(sprintf('unable to parse configuration file(s) "%s"', implode(',', $this->configFile)));
+                }
+
+                return $configData;
+            }
         }
 
-        return $configData;
+        throw new RuntimeException(sprintf('unable to read configuration file(s) "%s"', implode(',', $this->configFile)));
     }
 }

@@ -1,5 +1,9 @@
 # Release History
 
+## 1.1.0 (...)
+- support specifying multiple configuration files for reading/writing 
+  where the first one that is readable/writable wins
+
 ## 1.0.2 (2016-05-19)
 - increase level in which YAML is dumped inline when writing config
 

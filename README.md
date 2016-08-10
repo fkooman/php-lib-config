@@ -25,6 +25,18 @@ Or for YAML:
         new YamlFile('config.yaml')
     );
 
+You can also specify an `array` to `IniFile` or `YamlFile`. The _first_ 
+readable file will be used, e.g.: 
+
+    $reader = new Reader(
+        new YamlFile(
+            [
+                'config.yaml',
+                'config.yaml.example'
+            ]
+        )
+    );
+
 # Writing
 
     $yamlFile = new YamlFile('config.yaml');
@@ -33,7 +45,10 @@ Or for YAML:
             'foo' => 'bar'
         )
     );
-               
+
+You can also specify an `array` to `IniFile` or `YamlFile`. The _first_ 
+writable file will be written to.
+
 # Examples
 Imagine the following INI file:
 
