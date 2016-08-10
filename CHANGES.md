@@ -1,6 +1,6 @@
 # Release History
 
-## 1.1.0 (...)
+## 1.1.0 (2016-08-10)
 - support specifying multiple configuration files for reading/writing 
   where the first one that is readable/writable wins
 
